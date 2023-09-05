@@ -1,0 +1,1 @@
+here is to understand more about javascript on objects how to assign them with variables and to access objects on different files
