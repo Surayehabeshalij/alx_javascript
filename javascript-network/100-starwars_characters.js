@@ -1,36 +1,24 @@
 #!/usr/bin/node
 const request = require('request');
 
-const movieId = process.argv[2];
-const baseUrl = 'https://swapi-api.alx-tools.com/api/films/';
-const fullUrl = baseUrl.concat(movieId);
+function printMovieCharacters(movieId) {
+  const url = `https://swapi.dev/api/films/${movieId}/`;
 
-request(fullUrl, (error, response, body) => {
-  if (!error) {
-    const characters = JSON.parse(body).characters;
-    // Create a variable to store the number of characters processed
-    let charactersProcessed = 0;
-    // Create an empty array to store the character names
-    const characterNames = [];
-    characters.forEach((characterUrl) => {
-      request(characterUrl, (error, response, body) => {
-        if (!error) {
-          const charName = JSON.parse(body).name;
-          // Add the character name to the array
-          characterNames.push(charName);
-        }
-        // Increment the charactersProcessed variable
-        charactersProcessed++;
-        // Check if all characters have been processed
-        if (charactersProcessed === characters.length) {
-          // Log the character names when all characters have been processed
-          characterNames.forEach((actor) => {
-            console.log(actor);
-          });
-        }
+  request(url, { json: true }, (error, response, body) => {
+    if (response.statusCode === 200) {
+      const characters = body.characters;
+      characters.forEach((characterUrl) => {
+        request(characterUrl, { json: true }, (error, response, body) => {
+          if (response.statusCode === 200) {
+            const characterName = body.name;
+            console.log(characterName);
+          } else {
+            console.log(`Failed to fetch character data for URL: ${characterUrl}`);
+          }
+        });
       });
-    });
-  } else {
-    console.log(error);
-  }
-});
+    } else {
+      console.log(`Failed to fetch movie data for ID: ${movieId}`);
+    }
+  });
+}
