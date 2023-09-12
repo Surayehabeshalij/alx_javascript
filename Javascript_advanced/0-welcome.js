@@ -1,4 +1,3 @@
-#!/usr/bin/node
 //Lexical scoping and welcome message
 const welcome = (firstName, lastName) => {
     const fullName = `${firstName} ${lastName}`;
