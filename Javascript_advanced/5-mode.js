@@ -9,7 +9,7 @@ const changeMode = (size, weight, transform, background, color) => {
         document.body.style.color = color;
     }
 }
-
+main()
 let spooky = changeMode(9, 'bold', 'uppercase', 'pink', 'green');
 let darkMode = changeMode(12, 'bold', 'capitalize', 'black', 'white')
 let screamMode = changeMode(12, 'normal', 'lowercase', 'white', 'black')
@@ -42,4 +42,3 @@ const main = () => {
     document.body.appendChild(buttonScream)
 }
 
-main()
