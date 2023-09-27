@@ -1,30 +1,68 @@
+// Get references to form elements
+const submitForm = document.getElementById("submitForm");
+const nameInput = document.getElementById("name");
+const emailInput = document.getElementById("email");
+
+// Function to handle form submission
 function handleFormSubmit(event) {
-    event.preventDefault(); // Prevent the default form submission behavior
-  
-    var nameInput = document.getElementById('name');
-    var emailInput = document.getElementById('email');
-  
-    var name = nameInput.value.trim();
-    var email = emailInput.value.trim();
-  
-    var errorElement = document.getElementById('error');
-    var successElement = document.getElementById('success');
-  
-    // Validate the form fields
-    if (name === '' || email === '') {
-      errorElement.textContent = 'Please fill in all required fields.';
-      successElement.textContent = '';
-    } else {
-      // Clear any existing error message
-      errorElement.textContent = '';
-  
-      // Display success message
-      successElement.textContent = 'Form submitted successfully!';
-      // You can also submit the form to a server using AJAX or other techniques.
-      // In this example, we are just displaying a success message without actually submitting the form.
-    }
+  // Prevent the default form submission behavior
+  event.preventDefault();
+
+  // Retrieve the values entered in the form fields
+  const name = nameInput.value.trim();
+  const email = emailInput.value.trim();
+
+  // Initialize a flag to check if all validations pass
+  let isValid = true;
+
+  // Validate the "name" field
+  if (name === "") {
+    isValid = false;
+    displayError("name", "Please fill in your name.");
+  } else {
+    removeError("name");
   }
-  
-  // Get the form element and attach the event listener for form submission
-  var form = document.getElementById('submitForm');
-  form.addEventListener('submit', handleFormSubmit);
+
+  // Validate the "email" field
+  if (email === "") {
+    isValid = false;
+    displayError("email", "Please fill in your email.");
+  } else if (!isValidEmail(email)) {
+    isValid = false;
+    displayError("email", "Please enter a valid email address.");
+  } else {
+    removeError("email");
+  }
+
+  // If all validations pass, display a success message and submit the form
+  if (isValid) {
+    alert("Form submitted successfully!");
+    submitForm.submit();
+  }
+}
+
+// Function to display an error message for a specific field
+function displayError(fieldName, message) {
+  const fieldElement = document.getElementById(fieldName);
+  const errorElement = document.createElement("p");
+  errorElement.className = "error";
+  errorElement.textContent = message;
+  fieldElement.parentNode.appendChild(errorElement);
+}
+
+// Function to remove an error message for a specific field
+function removeError(fieldName) {
+  const errorElement = document.querySelector(`#${fieldName}.error`);
+  if (errorElement) {
+    errorElement.remove();
+  }
+}
+
+// Function to validate email format using a regular expression
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+// Add an event listener to the form to handle submission
+submitForm.addEventListener("submit", handleFormSubmit);
