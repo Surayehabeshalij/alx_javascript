@@ -1,5 +1,5 @@
 // Get references to form elements
-const dynamicForm = document.getElementById("dynamicForm");
+const dynamicForm = document.getElementById("dynamic-form");
 const numFieldsSelect = document.getElementById("numFields");
 const inputContainer = document.getElementById("inputContainer");
 
