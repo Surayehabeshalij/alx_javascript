@@ -1,0 +1,1 @@
+More understanding about HTML and JS_Validation we here try to explain about it.
